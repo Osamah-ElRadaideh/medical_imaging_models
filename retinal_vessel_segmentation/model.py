@@ -38,7 +38,7 @@ class attention_net(nn.Module):
         self.relu = nn.ReLU(inplace=True)
         self.conv2 = nn.Conv2d(channel, 1, kernel_size=1)
         self.conv3 = nn.Conv2d(1, 1, kernel_size=1)
-        self.softmax = nn.Softmax2d()
+        self.sigmoid = nn.Sigmoid()
         self.conv4 = nn.Conv2d(1, channel, kernel_size=1)
     def forward(self,encoded,decoded):
         encoded = self.conv_enc(encoded)
@@ -46,7 +46,7 @@ class attention_net(nn.Module):
         x = torch.add(encoded,decoded)
         x = self.relu(x)
         x = self.conv2(x)
-        x = self.softmax(x)
+        x = self.sigmoid(x)
         x = self.conv3(x)
         x = self.conv4(x)
         x = torch.mul(x,encoded)
