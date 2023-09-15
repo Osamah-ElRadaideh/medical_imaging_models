@@ -1,7 +1,7 @@
 # medical_imaging_models
 collection of models and implementations in medical imaging
 
-1- Brain Tumor MRI classification: CNN network to classify 3 types of brain tumors
+1- Brain Tumor MRI classification: CNN or ResNet34 networks to classify 3 types of brain tumors
 
 2 * -Unet implementation for retinal vessel segmentation. 
 
