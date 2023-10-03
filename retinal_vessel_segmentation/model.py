@@ -42,7 +42,7 @@ class attention_net(nn.Module):
     def forward(self,encoded,decoded):
         enc = self.conv_enc(encoded)
         dec = self.conv_dec(decoded)
-        x = torch.add(encoded, decoded)
+        x = torch.add(enc, dec)
         x = self.relu(x)
         x = self.conv2(x)
         x = self.sigmoid(x)
