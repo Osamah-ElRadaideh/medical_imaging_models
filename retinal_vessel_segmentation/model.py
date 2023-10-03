@@ -4,7 +4,8 @@ import torch.nn as nn
 
 def center_crop(tensor,reference_tensor):
     """
-    center crops the encoded image to match the shape of the decoded one.
+    center crops the encoded image to match the shape of the decoded one,
+      needed for images not having shape of 2^n x 2^m 
     """
     height = reference_tensor.shape[2]
     width = reference_tensor.shape[3]
@@ -35,20 +36,20 @@ class attention_net(nn.Module):
         self.conv_dec = nn.Conv2d(channel, channel, kernel_size=1)
 
         self.relu = nn.ReLU(inplace=True)
-        self.conv2 = nn.Conv2d(channel, channel, kernel_size=1)
-        self.conv3 = nn.Conv2d(channel, channel, kernel_size=1)
-        self.sigmoid = nn.Sigmoid()
-        self.conv4 = nn.Conv2d(channel, channel, kernel_size=1)
+        self.conv2 = nn.Conv2d(channel, 1, kernel_size=1)
+        self.conv3 = nn.Conv2d(1, 1, kernel_size=1)
+        self.softmax = nn.Softmax2d()
+        self.conv4 = nn.Conv2d(1, channel, kernel_size=1)
     def forward(self,encoded,decoded):
-        enc = self.conv_enc(encoded)
-        dec = self.conv_dec(decoded)
-        x = torch.add(enc, dec)
+        encoded = self.conv_enc(encoded)
+        decoded = self.conv_dec(decoded)
+        x = torch.add(encoded,decoded)
         x = self.relu(x)
         x = self.conv2(x)
-        x = self.sigmoid(x)
+        x = self.softmax(x)
         x = self.conv3(x)
-        x = torch.mul(x,encoded)
         x = self.conv4(x)
+        x = torch.mul(x,encoded)
         x = self.relu(x)
         return x
 
