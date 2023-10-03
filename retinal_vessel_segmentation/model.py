@@ -48,8 +48,9 @@ class attention_net(nn.Module):
         x = self.conv2(x)
         x = self.sigmoid(x)
         x = self.conv3(x)
-        x = self.conv4(x)
         x = torch.mul(x,encoded)
+
+        x = self.conv4(x)
         x = self.relu(x)
         return x
 
