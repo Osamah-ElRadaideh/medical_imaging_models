@@ -4,8 +4,7 @@ import torch.nn as nn
 
 def center_crop(tensor,reference_tensor):
     """
-    center crops the encoded image to match the shape of the decoded one,
-      needed for images not having shape of 2^n x 2^m 
+    center crops the encoded image to match the shape of the decoded one.
     """
     height = reference_tensor.shape[2]
     width = reference_tensor.shape[3]
